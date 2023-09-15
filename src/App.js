@@ -7,6 +7,7 @@ import { Button } from './components/Button/Button';
 //import { Modal } from './components/Modal/Modal';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Searchbar } from './components/Searchbar/Searchbar';
+import { Toaster } from 'react-hot-toast';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -117,6 +118,7 @@ export class App extends Component {
         {modalOpen && (
           <Modal image={modalImg} onClose={this.handleModalClose} />
         )}
+        <Toaster />
       </div>
     );
   }
