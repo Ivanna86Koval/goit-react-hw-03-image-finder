@@ -1,9 +1,9 @@
-//import { API } from 'api';
+import { fetchImages } from 'api';
 import { Component } from 'react';
 import Modal from 'react-modal';
-import * as API from './api';
+//import * as API from './api';
 import { Button } from './components/Button/Button';
-import { Loader } from './components/Loader/Loader';
+//import { Loader } from './components/Loader/Loader';
 //import { Modal } from './components/Modal/Modal';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Searchbar } from './components/Searchbar/Searchbar';
@@ -22,7 +22,7 @@ export class App extends Component {
     totalPages: 0,
   };
 
-  componentDidUpdate(_, prevState) {
+  async componentDidUpdate(_, prevState) {
     if (
       prevState.currentSearch !== this.state.currentSearch ||
       prevState.pageNr !== this.state.pageNr
@@ -35,7 +35,7 @@ export class App extends Component {
     const { currentSearch, pageNr } = this.state;
     try {
       this.setState({ isLoading: true });
-      const data = await API.fetchImages(currentSearch, pageNr);
+      const data = await fetchImages(currentSearch, pageNr);
 
       if (data.hits.length === 0) {
         return toast.info('Sorry image not found...', {
@@ -43,7 +43,7 @@ export class App extends Component {
         });
       }
 
-      const normalizedImages = API.normalizedImages(data.hits);
+      const normalizedImages = fetchImages.normalizedImages(data.hits);
 
       this.setState(state => ({
         images: [...state.images, ...normalizedImages],
@@ -110,7 +110,7 @@ export class App extends Component {
             Gallery is empty...
           </p>
         )}
-        {isLoading && <Loader />}
+
         {images.length > 0 && totalPages !== pageNr && !isLoading && (
           <Button onClick={this.handleClickMore} />
         )}

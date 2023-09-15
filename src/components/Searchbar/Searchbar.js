@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-//import { BsSearch } from '@react-icons/all-files/fa/FaBeer';
+import { BsSearch } from 'react-icons/bs';
 
 import {
   HeaderSearchBar,
@@ -31,6 +31,7 @@ export class Searchbar extends Component {
       <HeaderSearchBar>
         <SearchForm onSubmit={this.handleSubmit}>
           <SearchBtn>
+            <BsSearch />
             <SearchSpan>Search</SearchSpan>
           </SearchBtn>
           <Input
