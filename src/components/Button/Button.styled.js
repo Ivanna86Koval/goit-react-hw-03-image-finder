@@ -17,3 +17,9 @@ export const LoadMoreBtn = styled.button`
   transition: background-color color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 10px;
 `;
+
+export const StyledDivWrap = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;

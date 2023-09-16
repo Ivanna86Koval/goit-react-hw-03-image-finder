@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
-import { LoadMoreBtn } from './Button.styled';
+import { LoadMoreBtn, StyledDivWrap } from './Button.styled';
 
-export const Button = ({ onClick }) => {
+export const Button = props => {
   return (
-    <div>
-      <LoadMoreBtn onClick={onClick} type="button">
+    <StyledDivWrap>
+      <LoadMoreBtn type="button" onClick={e => props.loadMore(e)}>
         Load more
       </LoadMoreBtn>
-    </div>
+    </StyledDivWrap>
   );
 };
 
