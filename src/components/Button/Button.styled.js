@@ -16,10 +16,5 @@ export const LoadMoreBtn = styled.button`
   color: rgba(17, 101, 232, 1);
   transition: background-color color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   margin-top: 10px;
-`;
-
-export const StyledDivWrap = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
 `;
