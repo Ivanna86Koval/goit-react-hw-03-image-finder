@@ -3,8 +3,6 @@ import { Component } from 'react';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Searchbar } from './components/Searchbar/Searchbar';
 import { Button } from './components/Button/Button';
-//import { Loader } from './components/Loader/Loader';
-//import { Modal } from './components/Modal/Modal';
 import { RootStyle } from './components/RootStyle/RootStyle.styled';
 import toast, { Toaster } from 'react-hot-toast';
 import { Bars } from 'react-loader-spinner';

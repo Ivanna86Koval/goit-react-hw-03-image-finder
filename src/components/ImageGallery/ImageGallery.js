@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
-import ImageGalleryItem from './ImageGalleryItem';
-import { ImageList } from './ImageGallery.styled';
+import React from 'react';
+import { GalleryItem } from '../ImageGalleryItem/ImageGalleryItem.js';
+import { ImageList } from './ImageGallery.styled.js';
 
-export const ImageGallery = ({ props }) => {
+export const ImageGallery = props => {
   return (
-    <ImageList>
-      <ImageGalleryItem images={props.images} />
-    </ImageList>
+    <>
+      <ImageList>
+        <GalleryItem images={props.images} />
+      </ImageList>
+    </>
   );
 };
 

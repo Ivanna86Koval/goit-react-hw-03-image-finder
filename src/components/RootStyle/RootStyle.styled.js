@@ -1,4 +1,5 @@
-import { createGlobalStyle } from 'styled-component';
+/*import { createGlobalStyle } from 'styled-component';
+import 'modern-normalize';
 export const RootStyle = createGlobalStyle`
 
 body {
@@ -24,4 +25,4 @@ ul {
 #root {
   
 }
-`;
+`;*/

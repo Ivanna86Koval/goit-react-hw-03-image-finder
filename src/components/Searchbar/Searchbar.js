@@ -1,14 +1,13 @@
+/*import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
 import { BsSearch } from 'react-icons/bs';
-
-import {
+export {
   HeaderSearchBar,
-  Input,
-  SearchBtn,
   SearchForm,
+  SearchBtn,
   SearchSpan,
-} from './Searchbar.styled.js';
+  SearchFormInput,
+} from '../Searchbar/Searchbar.styled.js';
 
 export class Searchbar extends Component {
   state = {
@@ -16,28 +15,31 @@ export class Searchbar extends Component {
   };
 
   handleChange = event => {
-    this.setState({ inputValue: event.target.value });
+    this.setState({
+      [event.currentTarget.name]: event.target.value,
+    });
   };
 
   handleSubmit = event => {
     event.preventDefault();
     this.props.onSubmit(this.state.search.trim());
   };
-
   render() {
     return (
       <HeaderSearchBar>
         <SearchForm onSubmit={this.handleSubmit}>
-          <SearchBtn>
+          <SearchBtn type="submit">
             <BsSearch />
             <SearchSpan>Search</SearchSpan>
           </SearchBtn>
-          <Input
-            name="searchName"
+          <SearchFormInput
+            onChange={this.handleChange}
+            className="input"
             type="text"
             id="search"
-            value={this.state.inputValue}
-            onChange={this.handleChange}
+            autoComplete="off"
+            autoFocus
+            value={this.state.search}
             placeholder="Search images and photos"
           />
         </SearchForm>
@@ -48,4 +50,4 @@ export class Searchbar extends Component {
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-};
+};*/
