@@ -12,18 +12,16 @@ import {
 
 export class Searchbar extends Component {
   state = {
-    searchName: '',
-    inputValue: '',
+    search: '',
   };
+
   handleChange = event => {
     this.setState({ inputValue: event.target.value });
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const searchQuery = event.target.elements.searchName.value.trim();
-    this.props.onSubmit(searchQuery);
-    event.target.reset();
+    this.props.onSubmit(this.state.search.trim());
   };
 
   render() {
@@ -51,5 +49,3 @@ export class Searchbar extends Component {
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
-
-export default Searchbar;

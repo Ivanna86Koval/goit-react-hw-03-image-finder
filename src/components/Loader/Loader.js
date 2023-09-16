@@ -1,7 +1,7 @@
 import { Bars } from 'react-loader-spinner';
 import { LoaderContainer } from '../Loader/Loader.styled';
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <LoaderContainer>
       <Bars
@@ -16,4 +16,3 @@ const Loader = () => {
     </LoaderContainer>
   );
 };
-export default Loader;

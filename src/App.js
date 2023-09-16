@@ -1,127 +1,118 @@
-import { fetchImages } from 'api';
+import { fetchSearch } from 'api';
 import { Component } from 'react';
-import Modal from 'react-modal';
-//import * as API from './api';
+import { ImageGallery } from './components/ImageGallery/ImageGallery';
+import { Searchbar } from './components/Searchbar/Searchbar';
 import { Button } from './components/Button/Button';
 //import { Loader } from './components/Loader/Loader';
 //import { Modal } from './components/Modal/Modal';
-import { ImageGallery } from './components/ImageGallery/ImageGallery';
-import { Searchbar } from './components/Searchbar/Searchbar';
-import { Toaster } from 'react-hot-toast';
-import { ToastContainer, toast, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { RootStyle } from './components/RootStyle/RootStyle.styled';
+import toast, { Toaster } from 'react-hot-toast';
+import { Bars } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
+    search: '',
     images: [],
-    isLoading: false,
-    currentSearch: '',
-    pageNr: 1,
-    modalOpen: false,
-    modalImg: null,
-    modalAlt: '',
-    totalPages: 0,
+    page: 1,
+    loadMoreVisibility: false,
+    spiner: false,
+    max_page: null,
+    per_page: 12,
+    error: false,
   };
 
-  async componentDidUpdate(_, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.currentSearch !== this.state.currentSearch ||
-      prevState.pageNr !== this.state.pageNr
+      prevState.search !== this.state.search ||
+      prevState.page !== this.state.page
     ) {
-      this.addImages();
+      try {
+        this.setState({
+          spiner: true,
+        });
+        const images = await fetchSearch(
+          this.state.search,
+          this.state.page,
+          this.state.per_page
+        );
+        const { hits, totalHits } = images;
+
+        this.setState({
+          photos: [...this.state.images, ...hits],
+          totalHits: totalHits,
+          max_page: Math.ceil(totalHits / this.state.per_page),
+        });
+
+        if (this.state.page > 1) {
+          return;
+        } else {
+          toast.success(`We found ${totalHits} photos.`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        }
+      } catch (error) {
+        this.setState({ error: true });
+        toast.error('Something wrong. Try again.', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } finally {
+        this.setState({
+          spiner: false,
+        });
+      }
     }
   }
 
-  addImages = async () => {
-    const { currentSearch, pageNr } = this.state;
-    try {
-      this.setState({ isLoading: true });
-      const data = await fetchImages(currentSearch, pageNr);
-
-      if (data.hits.length === 0) {
-        return toast.info('Sorry image not found...', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      }
-
-      const normalizedImages = fetchImages.normalizedImages(data.hits);
-
-      this.setState(state => ({
-        images: [...state.images, ...normalizedImages],
-        isLoading: false,
-        error: '',
-        totalPages: Math.ceil(data.totalHits / 12),
-      }));
-    } catch (error) {
-      this.setState({ error: 'Something went wrong!' });
-    } finally {
-      this.setState({ isLoading: false });
+  loadMoreClick = e => {
+    if (this.state.page >= this.state.max_page) {
+      toast.error('There are no more images for this request');
+      this.setState({
+        loadMoreVisibility: true,
+      });
+      return;
     }
-  };
-
-  handleSubmit = inputValue => {
-    this.setState({
-      images: [],
-      isLoading: false,
-      currentSearch: inputValue,
-      pageNr: 1,
-    });
-  };
-
-  handleClickMore = () => {
     this.setState(prevState => ({
-      pageNr: prevState.pageNr + 1,
+      page: prevState.page + 1,
     }));
   };
 
-  handleImageClick = image => {
-    this.setState({ modalImg: image, modalOpen: true });
-    document.body.style.overflow = 'hidden';
-  };
-
-  handleModalClose = () => {
-    this.setState({ modalImg: null, modalOpen: false });
-    document.body.style.overflow = 'auto';
+  onGetSearch = word => {
+    if (this.state.search !== word && word) {
+      this.setState({
+        search: word,
+        images: [],
+        page: 1,
+        error: false,
+      });
+    } else if (word === '') {
+      toast.info('Please fill in field', {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
 
   render() {
-    const { images, isLoading, pageNr, modalImg, modalOpen, totalPages } =
-      this.state;
     return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr',
-          gridGap: '16px',
-          paddingBottom: '24px',
-        }}
-      >
-        <ToastContainer transition={Slide} />
-        <Searchbar onSubmit={this.handleSubmit} />
-        {images.length > 0 ? (
-          <ImageGallery images={images} onItemClick={this.handleImageClick} />
-        ) : (
-          <p
-            style={{
-              padding: 100,
-              textAlign: 'center',
-              fontSize: 30,
-            }}
-          >
-            Gallery is empty...
-          </p>
+      <>
+        <Searchbar onSubmit={this.onGetSearch} />
+        {this.state.spiner && (
+          <Bars
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="bars-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
         )}
-
-        {images.length > 0 && totalPages !== pageNr && !isLoading && (
-          <Button onClick={this.handleClickMore} />
+        <ImageGallery images={this.state.images} />
+        {this.state.images.length > 0 && !this.state.loadMoreVisibility && (
+          <Button loadMore={this.loadMoreClick} />
         )}
-        {modalOpen && (
-          <Modal image={modalImg} onClose={this.handleModalClose} />
-        )}
-        <Toaster />
-      </div>
+        <Toaster position="top-right" />
+        <RootStyle></RootStyle>
+      </>
     );
   }
 }
-
-export default App;
