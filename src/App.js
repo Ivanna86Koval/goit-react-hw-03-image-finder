@@ -1,80 +1,69 @@
-import { fetchSearch } from 'api';
 import { Component } from 'react';
+import { fetchSearch } from 'api';
 import { ImageGallery } from './components/ImageGallery/ImageGallery';
 import { Searchbar } from './components/Searchbar/Searchbar';
-import { Button } from './components/Button/Button';
+// import { Button } from './components/Button/Button';
+// import { Loader } from './components/Loader/Loader';
 import { RootStyle } from './components/RootStyle/RootStyle.styled';
-import toast, { Toaster } from 'react-hot-toast';
-import { Bars } from 'react-loader-spinner';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import { Bars } from 'react-loader-spinner';
 
 export class App extends Component {
   state = {
     search: '',
     images: [],
     page: 1,
-    loadMoreVisibility: false,
-    spiner: false,
+    // loadMoreVisibility: false,
+    spinner: false,
     max_page: null,
     per_page: 12,
     error: false,
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    if (
-      prevState.search !== this.state.search ||
-      prevState.page !== this.state.page
-    ) {
+    if (prevState.search !== this.state.search || prevState.page !== this.state.page) {
       try {
-        this.setState({
-          spiner: true,
-        });
-        const images = await fetchSearch(
-          this.state.search,
-          this.state.page,
-          this.state.per_page
-        );
+        const images = await fetchSearch(this.state.search, this.state.page, this.state.per_page)
         const { hits, totalHits } = images;
 
         this.setState({
           photos: [...this.state.images, ...hits],
           totalHits: totalHits,
-          max_page: Math.ceil(totalHits / this.state.per_page),
-        });
-
+          max_page: Math.ceil(totalHits / this.state.per_page)
+        })
+      
         if (this.state.page > 1) {
-          return;
+          return
         } else {
           toast.success(`We found ${totalHits} photos.`, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+            position: toast.POSITION.TOP_RIGHT
+          })
         }
+        
       } catch (error) {
         this.setState({ error: true });
         toast.error('Something wrong. Try again.', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      } finally {
-        this.setState({
-          spiner: false,
-        });
+          position: toast.POSITION.TOP_RIGHT
+        })
       }
-    }
+      }
   }
 
-  loadMoreClick = e => {
-    if (this.state.page >= this.state.max_page) {
-      toast.error('There are no more images for this request');
-      this.setState({
-        loadMoreVisibility: true,
-      });
-      return;
-    }
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
-  };
+  // loadMoreClick = e => {
+  //   if (this.state.page >= this.state.max_page) {
+  //     toast.error('There are no more images for this request');
+  //     this.setState({
+  //       loadMoreVisibility: true,
+  //     });
+  //     return;
+  //   }
+  //   this.setState(prevState => ({
+  //     page: prevState.page + 1,
+  //   }));
+  // };
 
-  onGetSearch = word => {
+  onGetSearch = (word) => {
     if (this.state.search !== word && word) {
       this.setState({
         search: word,
@@ -82,7 +71,7 @@ export class App extends Component {
         page: 1,
         error: false,
       });
-    } else if (word === '') {
+    } else if (!word) {
       toast.info('Please fill in field', {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -91,9 +80,9 @@ export class App extends Component {
 
   render() {
     return (
-      <>
+      <div>
         <Searchbar onSubmit={this.onGetSearch} />
-        {this.state.spiner && (
+        {/* {this.state.spinner && (
           <Bars
             height="80"
             width="80"
@@ -103,14 +92,14 @@ export class App extends Component {
             wrapperClass=""
             visible={true}
           />
-        )}
+        )} */}
         <ImageGallery images={this.state.images} />
-        {this.state.images.length > 0 && !this.state.loadMoreVisibility && (
+        {/* {this.state.images.length > 0 && !this.state.loadMoreVisibility && (
           <Button loadMore={this.loadMoreClick} />
-        )}
-        <Toaster position="top-right" />
+        )} */}
+        <ToastContainer />
         <RootStyle></RootStyle>
-      </>
+      </div>
     );
   }
 }

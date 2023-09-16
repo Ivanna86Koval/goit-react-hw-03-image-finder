@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyledModalImage } from './ImageGalleryItem.styled';
 
 export const GalleryItem = ({ images }) => {

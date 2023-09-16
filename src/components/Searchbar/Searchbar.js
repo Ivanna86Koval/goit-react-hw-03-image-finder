@@ -1,7 +1,7 @@
-/*import React, { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BsSearch } from 'react-icons/bs';
-export {
+import {
   HeaderSearchBar,
   SearchForm,
   SearchBtn,
@@ -35,6 +35,7 @@ export class Searchbar extends Component {
           <SearchFormInput
             onChange={this.handleChange}
             className="input"
+            name="search"
             type="text"
             id="search"
             autoComplete="off"
@@ -50,4 +51,4 @@ export class Searchbar extends Component {
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-};*/
+};

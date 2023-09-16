@@ -1,7 +1,7 @@
-/*import { createGlobalStyle } from 'styled-component';
+import { createGlobalStyle } from 'styled-components';
 import 'modern-normalize';
-export const RootStyle = createGlobalStyle`
 
+export const RootStyle = createGlobalStyle`
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -21,8 +21,4 @@ ul {
   padding: 0;
   margin: 0;
 }
-
-#root {
-  
-}
-`;*/
+`;
