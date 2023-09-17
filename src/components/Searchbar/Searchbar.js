@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BsSearch } from 'react-icons/bs';
 import {
-  HeaderSearchBar,
   SearchForm,
   SearchBtn,
   SearchSpan,
@@ -26,7 +25,7 @@ export class Searchbar extends Component {
   };
   render() {
     return (
-      <HeaderSearchBar>
+      <header>
         <SearchForm onSubmit={this.handleSubmit}>
           <SearchBtn type="submit">
             <BsSearch />
@@ -44,7 +43,7 @@ export class Searchbar extends Component {
             placeholder="Search images and photos"
           />
         </SearchForm>
-      </HeaderSearchBar>
+      </header>
     );
   }
 }

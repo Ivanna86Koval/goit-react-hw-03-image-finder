@@ -1,20 +1,23 @@
 import styled from 'styled-components';
 
 export const LoadMoreBtn = styled.button`
-  display: flex;
-  align-items: center;
-  margin: 0 auto;
-  border: 4px solid rgba(17, 101, 232, 1);
-  border-radius: 4px;
-  padding: 4px 10px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 1.4;
-  background-color: #feff00;
-  color: rgba(17, 101, 232, 1);
-  transition: background-color color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+   width: 160px;
+  height: 40px;
   margin-top: 10px;
-  margin: 0 auto;
+  margin-bottom: 30px;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: black;
+  background-color: gainsboro;
+
+  &:hover,
+  &:focus {
+    color: black;
+    background-color: rgba(255, 255, 126, 1);
+  }
 `;
